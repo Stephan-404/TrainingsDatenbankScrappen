@@ -218,8 +218,19 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
         titel=str(response.css('h1.entry-title::text').get()).replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue")
+        details=response.css('div.uebungsbox p::text').getall()
+        muskelgruppen=""
+        for muskel in response.css('div.uebungsbox li::text').getall():
+            muskelgruppen=muskelgruppen+muskel+","
+
+        muskelBild=response.css('div.muskelgruppe img::attr(src)').get()
         yield{
             'Titel':titel,
+            'Equipment':details[0].replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
+            'Schwierigkeit':details[1].replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
+            'AndereNamen':details[2].replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
+            'Muskeln':muskelgruppen.replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
+            'Bild':muskelBild
         }
 
 
