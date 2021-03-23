@@ -6,6 +6,7 @@ class QuotesSpider(scrapy.Spider):
     start_urls = [
         'http://quotes.toscrape.com/page/1/',
         'http://quotes.toscrape.com/page/2/',
+        'https://www.goodreads.com/quotes'
     ]
 
     def parse(self, response):

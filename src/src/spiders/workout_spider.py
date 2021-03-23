@@ -224,13 +224,21 @@ class QuotesSpider(scrapy.Spider):
             muskelgruppen=muskelgruppen+muskel+","
 
         muskelBild=response.css('div.muskelgruppe img::attr(src)').get()
+
+        ablauf=""
+
+        for strong in response.css('table.evergreen-uebung li::text').getall():
+            ablauf=ablauf+str(strong)+";"
+
+
         yield{
             'Titel':titel,
             'Equipment':details[0].replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
             'Schwierigkeit':details[1].replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
             'AndereNamen':details[2].replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
             'Muskeln':muskelgruppen.replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss"),
-            'Bild':muskelBild
+            'Bild':muskelBild,
+            'Ablauf=': ablauf.replace("ö","oe").replace("Ö","Oe").replace("ä","ae").replace("Ä","Ae").replace("ü","ue").replace("Ü","ue").replace("ß","ss").replace("</li>","").replace("<li>","")
         }
 
 
